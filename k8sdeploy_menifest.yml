@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: node-app-paytm
+spec:
+  replicas: 10
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  selector:
+    matchLabels:
+      app: node-app-paytm
+  template:
+    metadata:
+      labels:
+        app: node-app-paytm
+    spec:
+      containers:
+      - name: node-app-paytm
+        image: 322488266669.dkr.ecr.us-east-1.amazonaws.com/nodejs_test_paytm:welcome
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8080
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 8080
+          initialDelaySeconds: 15
+          timeoutSeconds: 30
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 8080
+          initialDelaySeconds: 5
+          periodSeconds: 5
+          successThreshold: 1
+        resources:
+          limits:
+            cpu: 400m
+            memory: 128Mi
+          requests:
+            cpu: 150m
+            memory: 64Mi
+

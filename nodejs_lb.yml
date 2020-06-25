@@ -1,0 +1,14 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: node-app-paytm
+spec:
+  type: LoadBalancer
+  selector:
+    app: node-app-paytm
+  ports:
+    - name: http
+      protocol: TCP
+      port: 3000
+      targetPort: 8080
+
